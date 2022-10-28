@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Sockets;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Policy;
 using System.Text;
@@ -17,7 +18,7 @@ namespace BreakOutGame
     {
         private int xChange = 2;
         private int yChange = 3;
-        
+
         public BreakoutForm()
         {
             InitializeComponent();
@@ -48,22 +49,36 @@ namespace BreakOutGame
                     Controls.Remove(c);
                     c.Visible = false;
                 }
+                if (c.Name.Contains("brick") && brick.Visible == false)
+                {
+                    timer1.Enabled = false;
+                    MessageBox.Show("Game Over");
+                }
+            }
+            /*When all the bricks are invisible (check in a loop in timer_Tick 
+             * with a bool flag variable if you find one that’s visible), pop up a 
+             * MessageBox to say Game Over and set the timer1.Enabled to false to
+             * stop the movement.
+             * */
+            if (ballPictureBox.Bottom >= paddlePictureBox.Top && ballPictureBox.Bottom <= paddlePictureBox.Bottom && ballPictureBox.Left >= paddlePictureBox.Left && ballPictureBox.Right <= paddlePictureBox.Right)    //collision
+            {
+                yChange += 1;
+                yChange = -yChange;          // change the direction
             }
         }
 
 
         private void keydown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Right && paddlePictureBox.Right < Width)
-                paddlePictureBox.Left += 5;
-            if (e.KeyCode == Keys.Left && paddlePictureBox.Left > 0)
-                paddlePictureBox.Left -= 5;
-            /* In the same function, you can test if the paddle hits the ball
-             * by testing if (paddle.Bounds.IntersectsWith(ball.Bounds)). 
-             * If it does, then bounce off by multiplying yChange by -1. 
-             * */
+            // Check collision between paddle and ball
             if (paddlePictureBox.Bounds.IntersectsWith(ballPictureBox.Bounds))
-                yChange *= -1;
+                yChange *= -1; 
+            // Change speed of paddle
+            if (e.KeyCode == Keys.Right && paddlePictureBox.Right < Width)
+                paddlePictureBox.Left += 15;
+            if (e.KeyCode == Keys.Left && paddlePictureBox.Left > 0)
+                paddlePictureBox.Left -= 15;
+ 
         }
 
         private void BreakoutForm_Load(object sender, EventArgs e)
@@ -72,11 +87,11 @@ namespace BreakOutGame
             /* Set up variables for your grid of bricks: 
              */
             int numRows = 5;
-            int numCols = 10;
-            int brickWidth = 30;
-            int brickHeight = 20;
+            int numCols = 15;
+            int brickWidth = 40;
+            int brickHeight = 30;
             int spacer = 3;
-            int xOffset = 240;
+            int xOffset = 300;
             int yOffset = 20;
 
             /* Set up nested loops to go through the rows and
