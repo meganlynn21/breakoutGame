@@ -15,7 +15,7 @@ namespace BreakOutGame
         public int Y { get; set; }
         public int Width1 { get; set; }
         public int Height1 { get; set; }
-        public string ImageFile { get; set; }
+        public string ImageFile { get; set;}
 
 
         /*Add a constructor that takes 4 arguments for the properties and 
@@ -23,10 +23,9 @@ namespace BreakOutGame
          * constructor with no arguments, so we will have to set its 
          * properties inside the Brick constructor
          * */
+        public Brick() { }
         public Brick(int x, int y, int width, int height, string imageFile) : base()
         {
-            BreakoutForm breakoutForm = new BreakoutForm();
-            string blueBrickBox = breakoutForm.ImgFile;
 
             X = x;
             Y = y;
@@ -37,7 +36,7 @@ namespace BreakOutGame
             base.Name = "brick" + X + Y;
             base.Size = new Size(Width1, Height1);
             base.Location = new Point(X, Y);
-            base.Image = Image.FromFile(blueBrickBox);
+            base.Image = Image.FromFile(@"C:\Users\megan\OneDrive\Documents\C#\CSharpClassProjects\BreakOutGame\bin\Debug\netcoreapp3.1\Breakout Images\Breakout Images\blueBrick.jpg");
             base.SizeMode = PictureBoxSizeMode.Zoom;
 
         }

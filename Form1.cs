@@ -17,10 +17,6 @@ namespace BreakOutGame
     {
         private int xChange = 2;
         private int yChange = 3;
-        public string ImgFile
-        {
-            get { return blueBrick.ToString(); }
-        }
         
         public BreakoutForm()
         {
@@ -58,7 +54,31 @@ namespace BreakOutGame
                 yChange *= -1;
             if (ballPictureBox.Bottom > Height)
                 ballPictureBox.Top = 150;
+
+            /* Add the loop: foreach (Control c in Controls) {}
+            Inside the loop, add an if statement to see if c.Name.Contains("brick")
+            which will make sure c is a brick and not the paddle or the ball.      
+            Add && conditions to the if statement to also test that c is Visible 
+            (it hasn’t been hit yet) and the ball intersects with c (look at the code 
+            that you wrote to check for collisions with the paddle for this). 
+            Inside the if statement, you want to bounce off the brick just like you
+            bounced off the paddle by changing yChange. You should also set it’s Visible 
+            property to false and do Controls.Remove(c) to remove it from the form.
+            Test it out!
+            */
+            Brick brick = new Brick();
+
+            foreach(Control c in Controls)
+            {
+                if (c.Name.Contains("brick") && c.Visible && ballPictureBox.Bounds.IntersectsWith(c.Bounds))
+                { 
+                    yChange *= -1;
+                    Controls.Remove(c);
+                    c.Visible = false;
+                }
+            }
         }
+
 
         private void keydown(object sender, KeyEventArgs e)
         {
@@ -106,9 +126,9 @@ namespace BreakOutGame
             int numRows = 5;
             int numCols = 10;
             int brickWidth = 30;
-            int brickHeight = 15;
+            int brickHeight = 20;
             int spacer = 3;
-            int xOffset = 20;
+            int xOffset = 220;
             int yOffset = 20;
 
             /* Set up nested loops (see slide 10) to go through the rows and
@@ -121,24 +141,26 @@ namespace BreakOutGame
               x = col * (brickWidth + spacer) + xOffset;
               y = row * (brickHeight + spacer) + yOffset;
             */
+            var imageFile = @"C:\Users\megan\OneDrive\Documents\C#\CSharpClassProjects\BreakOutGame\bin\Debug\netcoreapp3.1\Breakout Images\Breakout Images\blueBrick.jpg";
 
-            for (int i = 0; i <= numRows; i++)
+            for (int row = 0; row <= numRows; row++)
             {
-                for (int j = 0; j <= numCols; j++)
+                // increment y coordinate for row spacing
+                int y = row * (brickHeight + spacer) + yOffset;
+                for (int col = 0; col <= numCols; col++)
                 {
                     /*Also set up a variable imageFile set to one of the brick
                       filenames you copied in You can be creative here(see step 11)
                       and change the image depending on the row number.
                       */
-                    var imageFile = blueBrick;
-                    // Create a brick
-                    Brick b = new Brick(xChange, yChange, brickWidth, brickHeight, imageFile.ToString());
-                    Controls.Add(b);
                     // increment x coordinate for column spacing
-                    xChange = numCols * (brickWidth + spacer) + xOffset;
+                    int x = col * (brickWidth + spacer) + xOffset;
+                    // Create a brick
+                    Brick b = new Brick(x, y, brickWidth, brickHeight, imageFile.ToString());
+                    Controls.Add(b);
+                   
                 }
-                // increment y coordinate for row spacing
-                yChange = numRows * (brickHeight + spacer) + yOffset;
+              
             }
 
 
@@ -150,9 +172,5 @@ namespace BreakOutGame
 
         }
 
-        private void blueBrick_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
