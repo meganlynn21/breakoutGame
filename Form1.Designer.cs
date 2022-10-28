@@ -57,9 +57,9 @@
             // 
             this.paddlePictureBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.paddlePictureBox.Image = ((System.Drawing.Image)(resources.GetObject("paddlePictureBox.Image")));
-            this.paddlePictureBox.Location = new System.Drawing.Point(276, 306);
+            this.paddlePictureBox.Location = new System.Drawing.Point(157, 367);
             this.paddlePictureBox.Name = "paddlePictureBox";
-            this.paddlePictureBox.Size = new System.Drawing.Size(231, 41);
+            this.paddlePictureBox.Size = new System.Drawing.Size(151, 51);
             this.paddlePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.paddlePictureBox.TabIndex = 1;
             this.paddlePictureBox.TabStop = false;
@@ -70,7 +70,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(877, 554);
             this.Controls.Add(this.paddlePictureBox);
             this.Controls.Add(this.ballPictureBox);
             this.Name = "BreakoutForm";

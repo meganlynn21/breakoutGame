@@ -10,7 +10,7 @@ namespace BreakOutGame
     internal class Brick : PictureBox
     {
 
-        //Add the properties (prop tab tab) for x, y, width, height, imageFile.
+        //Add the properties 
         public int X { get; set; }
         public int Y { get; set; }
         public int Width1 { get; set; }
@@ -18,11 +18,8 @@ namespace BreakOutGame
         public string ImageFile { get; set;}
 
 
-        /*Add a constructor that takes 4 arguments for the properties and 
-         * call : base() after it. The PictureBox class just has a default 
-         * constructor with no arguments, so we will have to set its 
-         * properties inside the Brick constructor
-         * */
+        //Add constructors
+         
         public Brick() { }
         public Brick(int x, int y, int width, int height, string imageFile) : base()
         {
