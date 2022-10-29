@@ -39,31 +39,46 @@ namespace BreakOutGame
 
             /* See if the ball intersects with the bricks and if it does remove bricks
             */
+            Control control = new Control();
             Brick brick = new Brick();
 
-            foreach(Control c in Controls)
+            foreach (Control c in Controls)
             {
+
                 if (c.Name.Contains("brick") && c.Visible && ballPictureBox.Bounds.IntersectsWith(c.Bounds))
-                { 
+                {
                     yChange *= -1;
                     Controls.Remove(c);
                     c.Visible = false;
                 }
-                if (c.Name.Contains("brick") && brick.Visible == false)
-                {
-                    timer1.Enabled = false;
-                    MessageBox.Show("Game Over");
-                }
             }
+
             /*When all the bricks are invisible (check in a loop in timer_Tick 
-             * with a bool flag variable if you find one that’s visible), pop up a 
-             * MessageBox to say Game Over and set the timer1.Enabled to false to
-             * stop the movement.
-             * */
+           * with a bool flag variable if you find one that’s visible), pop up a 
+           * MessageBox to say Game Over and set the timer1.Enabled to false to
+           * stop the movement.
+           * */
+
+            bool isVisible = false;
+
+            foreach (Control c in Controls)
+            {
+                if (c.Name.Contains("brick") && c.Visible)
+                    isVisible = true;
+            }
+            if (isVisible == false)
+            {
+                timer1.Enabled = false;
+                MessageBox.Show("        You Win!");
+                Application.Exit();
+            }
+
             if (ballPictureBox.Bottom >= paddlePictureBox.Top && ballPictureBox.Bottom <= paddlePictureBox.Bottom && ballPictureBox.Left >= paddlePictureBox.Left && ballPictureBox.Right <= paddlePictureBox.Right)    //collision
             {
-                yChange += 1;
-                yChange = -yChange;          // change the direction
+                // Makes ball go faster everytime it hits the bricks
+                if (yChange < 10)
+                    yChange += 1;
+                yChange = -yChange;  // change the direction
             }
         }
 
@@ -72,13 +87,12 @@ namespace BreakOutGame
         {
             // Check collision between paddle and ball
             if (paddlePictureBox.Bounds.IntersectsWith(ballPictureBox.Bounds))
-                yChange *= -1; 
+                yChange *= -1;
             // Change speed of paddle
             if (e.KeyCode == Keys.Right && paddlePictureBox.Right < Width)
                 paddlePictureBox.Left += 15;
             if (e.KeyCode == Keys.Left && paddlePictureBox.Left > 0)
                 paddlePictureBox.Left -= 15;
- 
         }
 
         private void BreakoutForm_Load(object sender, EventArgs e)
@@ -87,11 +101,11 @@ namespace BreakOutGame
             /* Set up variables for your grid of bricks: 
              */
             int numRows = 5;
-            int numCols = 15;
+            int numCols = 7;
             int brickWidth = 40;
             int brickHeight = 30;
             int spacer = 3;
-            int xOffset = 300;
+            int xOffset = 400;
             int yOffset = 20;
 
             /* Set up nested loops to go through the rows and
@@ -109,8 +123,8 @@ namespace BreakOutGame
                     int x = col * (brickWidth + spacer) + xOffset;
                     // Create a brick
                     Brick b = new Brick(x, y, brickWidth, brickHeight, imageFile.ToString());
-                    Controls.Add(b);                  
-                }              
+                    Controls.Add(b);
+                }
             }
         }
 
